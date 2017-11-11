@@ -23,11 +23,9 @@ function getRoutes(callback){
 	form.append('photo', fs.createReadStream(filepath));
 }
 
-var val=[];
-
 //GET home page.
 router.get('/', function(req, res) {
- var flag = 1;
+ 
   if (process.argv.length <= 2) {
       console.log("Usage: " + __filename + " path/to/directory");
       //process.exit(-1);
@@ -40,28 +38,18 @@ router.get('/', function(req, res) {
   var path = __dirname + '\\img\\';
   console.log("DIR path: " + path);
   //var newPath = path.dirname('./express-app');
-
-  var photos = [];
+  var val=[];
 
   fs.readdir(path, function(err, items) {
       console.log(items);
       val.push(items);
 
-      photos = items;
+      for (var i=0; i<items.length; i++) {
+          console.log(items[i]);
 
-
-
-	//res.render('index', {photo: val});
-	//setTimeout(function(){ res.render('index', {photo: val}); }, 10000);
-  });
-
-//setTimeout(function(){ console.log('Time', photos,photos.length) }, 1000);
-	flag = 1;
-      for (var i=0; i<photos.length; ) {
-          console.log(flag, photos[i], val.length);
           //POST
-		filepath = path+photos[i];
-		var fileOne = photos[i];
+		filepath = path+items[i];
+		var fileOne = items[i];
 		/*
 		// 헤더 부분
 		var headers = {
@@ -91,13 +79,7 @@ router.get('/', function(req, res) {
 	        var obj = JSON.parse(data);
 	   	    val.push(obj);
 	    });*/
-	    if(flag==1){
-	    	console.log(flag, 'call?', fileOne);
-			flag = 0;
-	    	console.log(flag, 'call!',fileOne);
-
 		var req = request.post(url, function (err, resp, body) {
-		    console.log('Flag Stop!!!!!!!!!!');
 		  if (err) {
 		    console.log('Error!');
 		  } else {
@@ -105,26 +87,24 @@ router.get('/', function(req, res) {
 	        //result = JSON.stringify(JSON.parse(body));          
 	        result = JSON.parse(body);
 	   	    val.push(result);
-	   	    console.log('!!push completed !!  ', val.length, result);
 
-	   	    fs.writeFile(__dirname + '\\txt\\' + fileOne.split('.')[0] + '.txt', body, 'utf8',function(err) {
+	   	    /*fs.writeFile(__dirname + '\\txt\\' + fileOne.split('.')[0] + '.txt', body, 'utf8',function(err) {
                 if (err) throw err;
-                console.log('JSON writeFileSync completed');
-            });
+                console.log('JSON color writeFileSync completed');
+            });*/
 
             if(val.length > i) res.render('index', {photo: val});
-            i++;
-            flag = 1;
-
 		  }
 		});
 		var form = req.form();
 		form.append('photo', fs.createReadStream(filepath));	    
 
-	    }
 
+      }
 
-      }  
+	//res.render('index', {photo: val});
+	//setTimeout(function(){ res.render('index', {photo: val}); }, 10000);
+  });
 
 });
 
