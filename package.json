@@ -1,13 +1,12 @@
 {
-  "name": "electron-with-express",
-  "description": "Demonstrates spawning Express from Electron and using it to serve content",
-  "version": "0.8.0",
+  "name": "FRAS-console",
+  "description": "Desktop version of BOM by Electron app",
+  "version": "0.1.0",
   "main": "main.js",
   "authors": [
-    "Frank Hale <frankhale@gmail.com>"
+    "Kwon Sunbeom (s6.kwon) <null@llun.com>"
   ],
   "license": "GPL-3.0",
-  "private": true,
   "scripts": {
     "start": ".\\node.exe start-electron.js"
   },
