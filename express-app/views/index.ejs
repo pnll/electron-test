@@ -20,12 +20,14 @@
 	      var ctx = canvas.getContext("2d");
 
 	      // specify canvas size
-	      canvas.width = 160;//image.width;
-	      canvas.height = 160;//image.height;
-
+	      //canvas.width = image.width;
+	      //canvas.height = image.height;
+	      var scale = canvas.width/image.width;
+	      var scale2 = canvas.height/image.height;
+	      
 	      // Once we have a reference to the source image object we can use the drawImage(reference, x, y) method to render it to the canvas. 
 		  //x, y are the coordinates on the target canvas where the image should be placed.
-	      ctx.drawImage(image, 0, 0);
+	      ctx.drawImage(image, 0, 0, image.width*scale, image.height*scale2);
 
 	      // Taking the image data and storing it in the imageData array. You can read the pixel data on a canvas using the getImageData() method. Image data includes the colour of the pixel (decimal, rgb values) and transparency (alpha value). Each color component is represented by an integer between 0 and 255. imageData.da contains height x width x 4 bytes of data, with index values ranging from 0 to (height x width x 4)-1.
 	      var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height),
@@ -83,20 +85,22 @@ a {text-decoration:none;}
          url('BebasNeue-webfont.svg#webfontfvFLBU0N') format('svg');
     font-weight: normal;
     font-style: normal;}
-body {background:  #f6f6f6 url(images/bckgtexture.jpg);font-family:BebasNeueRegular;padding-top:20px;color:#393939;}
-#wrap {width: 1020px; margin: 0 auto;} 
-h1 {font-size:3em;margin-left:20px;margin-bottom:20px; text-shadow:0 1px 0 #fff;}
-li {float:left; position:relative; display:inline-block; width:160px; height:160px;margin:10px; padding:10px; background:#fff; -webkit-box-shadow:0 0 5px rgba(0,0,0,.35);
+body {background:  #f6f6f6 url(images/bckgtexture.jpg);font-family:tahoma;padding-top:20px;color:#393939;}
+#wrap {width: 1080px; margin: 0 auto;} 
+h1 {font-family:BebasNeueRegular;font-size:3em;margin-left:20px;margin-bottom:10px; text-shadow:0 1px 0 #fff;}
+li {float:left; position:relative; display:inline-block; width:160px; height:160px;margin:5px; padding:5px; background:#fff; -webkit-box-shadow:0 0 5px rgba(0,0,0,.35);
 	-moz-boz-shadow: 0 0 5px rgba(0,0,0,.35);box-shadow:0 0 5px rgba(0,0,0,.35);}
-li div {position:absolute;height:0; width:140px;background:rgba(0,0,0,.45); overflow:hidden;bottom:10px;left:10px; padding: 0 10px;-webkit-transition:height 1s;-moz-transition:height 1s;-o-transition:height 1s;-ms-transition:height 1s; transition:height 1s;color:#fff;line-height:30px;font-size:0.8em;}
+li a div {position:absolute;height:0; width:140px;background:rgba(0,0,0,.45); overflow:hidden;bottom:5px;left:5px; padding: 0 10px;-webkit-transition:height 1s;-moz-transition:height 1s;-o-transition:height 1s;-ms-transition:height 1s; transition:height 1s;color:#fff;line-height:30px;font-size:0.8em;}
 li:hover div {height:30px;}
-canvas {opacity:1; position:absolute; top:10px; left:10px; width:160px; height:160px; -webkit-transition:opacity 1s .2s;-moz-transition:opacity 1s .2s;-o-transition:opacity 1s .2s;-ms-transition:opacity 1s .2s;transition:opacity 1s .2s;}
+canvas {opacity:1; position:absolute; top:5px; left:5px; width:160px; height:160px; -webkit-transition:opacity 1s .2s;-moz-transition:opacity 1s .2s;-o-transition:opacity 1s .2s;-ms-transition:opacity 1s .2s;transition:opacity 1s .2s;}
 li:hover canvas {opacity:0;}
 p {clear:left; float:right; margin-top:10px;margin-right:20px;}
 p a {color:#909090;-webkit-transition:color .6s;-moz-transition:color .6s;-o-transition:color .6s;-ms-transition:color .6s;transition:color .6s;}
 p a:hover {color:#eb5cf4;}
 
 li img {width:160px; height:160px;}
+li {margin-bottom: 50px;}
+li div {padding-top: 7px;}
 </style>
 </head>
 
@@ -104,12 +108,14 @@ li img {width:160px; height:160px;}
 	<div id="wrap">
 		<h1>FRAS Dashboard</h1>
 		<ul id="gallery">
-  <% if(photo[0].length>0){
-    for(var i=0,j=1; i<photo[0].length; i++,j++){
+  <% if(photo.length>0){
+    for(var i=0; i<photo.length; i++){
+    	if(i > 910) break;
    %>
-			<li><a href="http://llun.com"><img src="photo/<%=photo[0][i]%>"><div><%=photo[0][i]%></div>
-			</a></li>
-			<li><span><%=photo[j].labels%><br><br><%=photo[j].similarities%></span></li>
+			<li><a href="http://llun.com"><img src="photo/<%=photo[i]%>"><div><%=photo[i]%></div>
+				</a>
+				<div><%=resp[photo[i]].labels%><br>(<%=resp[photo[i]].similarities%>)</div>
+			</li>
   <%}
   }%>
 		</ul>

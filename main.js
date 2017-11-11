@@ -7,8 +7,8 @@ let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({
     //autoHideMenuBar: true,
-    width: 1080,
-    height: 480
+    width: 1150,
+    height: 600
   });
   mainWindow.loadURL(`file://${__dirname}/index.html`);
   //mainWindow.webContents.openDevTools();
